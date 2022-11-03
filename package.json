@@ -50,6 +50,7 @@
     "@types/styled-components": "^5.1.26",
     "autoprefixer": "^9",
     "postcss": "^7",
+    "prettier": "2.7.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   }
 }
