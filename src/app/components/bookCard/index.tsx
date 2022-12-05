@@ -5,13 +5,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import tw from "twin.macro";
 import { Button } from "../button";
 import { Marginer } from "../marginer";
 
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import { SCREENS } from "../responsive";
 
 const CardContainer = styled.div`
   min-height: 4.3em;
@@ -80,12 +81,22 @@ const LineSeparator = styled.span`
   `}
 `;
 
-const DateCalendar = styled(Calendar)`
+const DateCalendar = styled(Calendar)<{ offset: boolean }>`
   position: absolute;
   max-width: none;
   user-select: none;
   top: 3.5em;
-  left: -2em;
+  left: 0;
+
+  ${({ offset }) =>
+    offset &&
+    css`
+      left: -6em;
+    `};
+
+  @media (min-width: ${SCREENS.md}) {
+    left: -2em;
+  }
 `;
 
 export function BookCard() {
@@ -117,7 +128,11 @@ export function BookCard() {
           />
         </SmallIcon>
         {isStartCalendarOpen && (
-          <DateCalendar value={startDate} onChange={setStartDate} />
+          <DateCalendar
+            offset={false}
+            value={startDate}
+            onChange={setStartDate}
+          />
         )}
       </ItemContainer>
       <LineSeparator />
@@ -132,7 +147,11 @@ export function BookCard() {
           />
         </SmallIcon>
         {isReturnCalendarOpen && (
-          <DateCalendar value={returnDate} onChange={setReturnDate} />
+          <DateCalendar
+            offset={true}
+            value={returnDate}
+            onChange={setReturnDate}
+          />
         )}
       </ItemContainer>
       <Marginer direction="horizontal" margin="2em" />
