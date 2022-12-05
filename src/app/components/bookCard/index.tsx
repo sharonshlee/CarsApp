@@ -1,4 +1,8 @@
-import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCalendarAlt,
+  faCaretDown,
+  faCaretUp,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import styled from "styled-components";
@@ -44,12 +48,23 @@ const Icon = styled.span`
   `}
 `;
 
+const SmallIcon = styled.span`
+  ${tw`
+    text-gray-500
+    fill-current
+    text-xs
+    md:text-base
+    ml-1
+  `};
+`;
+
 const Name = styled.span`
   ${tw`
     text-gray-600
     text-xs
     md:text-sm
     cursor-pointer
+    select-none
   `};
 `;
 
@@ -68,6 +83,7 @@ const LineSeparator = styled.span`
 const DateCalendar = styled(Calendar)`
   position: absolute;
   max-width: none;
+  user-select: none;
   top: 3.5em;
   left: -2em;
 `;
@@ -80,10 +96,12 @@ export function BookCard() {
 
   const toggleStartDateCalendar = () => {
     setStartCalendarOpen(!isStartCalendarOpen);
+    if (isReturnCalendarOpen) setReturnCalendarOpen(false);
   };
 
   const toggleReturnDateCalendar = () => {
     setReturnCalendarOpen(!isReturnCalendarOpen);
+    if (isStartCalendarOpen) setStartCalendarOpen(false);
   };
 
   return (
@@ -93,6 +111,11 @@ export function BookCard() {
           <FontAwesomeIcon icon={faCalendarAlt} />
         </Icon>
         <Name onClick={toggleStartDateCalendar}>Pick Up Date</Name>
+        <SmallIcon>
+          <FontAwesomeIcon
+            icon={isStartCalendarOpen ? faCaretUp : faCaretDown}
+          />
+        </SmallIcon>
         {isStartCalendarOpen && (
           <DateCalendar value={startDate} onChange={setStartDate} />
         )}
@@ -103,6 +126,11 @@ export function BookCard() {
           <FontAwesomeIcon icon={faCalendarAlt} />
         </Icon>
         <Name onClick={toggleReturnDateCalendar}>Return Date</Name>
+        <SmallIcon>
+          <FontAwesomeIcon
+            icon={isReturnCalendarOpen ? faCaretUp : faCaretDown}
+          />
+        </SmallIcon>
         {isReturnCalendarOpen && (
           <DateCalendar value={returnDate} onChange={setReturnDate} />
         )}
